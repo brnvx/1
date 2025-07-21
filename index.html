@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Offer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-secondary: #FFD700;
+            --dark-red: #1a0000;
+            --medium-red: #4d0000;
+            --rich-black: #0a0a0a;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, var(--dark-red) 0%, var(--medium-red) 50%, var(--dark-red) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Animated Background Elements */
+        .bg-element {
+            position: absolute;
+            pointer-events: none;
+            z-index: -1;
+            animation: fall linear infinite;
+        }
+        
+        .star {
+            background: radial-gradient(circle, 
+                rgba(255,255,255,0.8) 0%, 
+                rgba(255,255,255,0.5) 50%, 
+                transparent 70%);
+            border-radius: 50%;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
+        
+        .snow {
+            background: radial-gradient(circle, 
+                rgba(255,255,255,0.9) 0%, 
+                rgba(212,175,55,0.6) 50%, 
+                transparent 70%);
+            border-radius: 50%;
+            filter: drop-shadow(0 0 3px rgba(255,215,0,0.5));
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Floating Glow Effect */
+        .glow {
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+            animation: float-glow 15s infinite alternate;
+            z-index: -2;
+            opacity: 0.3;
+        }
+        
+        @keyframes float-glow {
+            0% {
+                transform: translate(-25%, -25%) scale(0.9);
+            }
+            50% {
+                transform: translate(-25%, -25%) scale(1.1);
+            }
+            100% {
+                transform: translate(-25%, -25%) scale(0.9);
+            }
+        }
+        
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 320px;
+            position: relative;
+            padding: 20px;
+            z-index: 10;
+            background: rgba(77, 0, 0, 0.6);
+            border-radius: 18px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .banner {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .banner:hover {
+            transform: scale(1.02);
+        }
+        
+        /* Button Styles */
+        .btn-main {
+            width: 100%;
+            padding: 16px 0;
+            margin-top: 20px;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            border: none;
+            border-radius: 10px;
+            color: var(--rich-black);
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.7);
+        }
+        
+        .btn-main:active {
+            transform: translateY(1px);
+        }
+        
+        .btn-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            100% {
+                left: 100%;
+            }
+        }
+        
+        /* Simple Corner Decorations */
+        .corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+        
+        .corner-tl {
+            top: 10px;
+            left: 10px;
+            border-top: 2px solid var(--gold-primary);
+            border-left: 2px solid var(--gold-primary);
+        }
+        
+        .corner-tr {
+            top: 10px;
+            right: 10px;
+            border-top: 2px solid var(--gold-primary);
+            border-right: 2px solid var(--gold-primary);
+        }
+        
+        .corner-bl {
+            bottom: 10px;
+            left: 10px;
+            border-bottom: 2px solid var(--gold-primary);
+            border-left: 2px solid var(--gold-primary);
+        }
+        
+        .corner-br {
+            bottom: 10px;
+            right: 10px;
+            border-bottom: 2px solid var(--gold-primary);
+            border-right: 2px solid var(--gold-primary);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .container {
+                max-width: 95%;
+                padding: 15px;
+            }
+            
+            .btn-main {
+                padding: 14px 0;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow"></div>
+    
+    <div class="container">
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
+        
+        <img src="https://iili.io/FN9dGDv.md.jpg" alt="Special Offer" class="banner">
+        <button class="btn-main">LEARN MORE</button>
+    </div>
+
+    <script>
+        // Create falling elements (stars and snow)
+        function createFallingElements() {
+            const colors = ['#FFD700', '#FFA500', '#FF6347', '#87CEFA', '#98FB98', '#FF69B4'];
+            const body = document.body;
+            
+            // Create stars
+            for (let i = 0; i < 30; i++) {
+                const star = document.createElement('div');
+                star.classList.add('bg-element', 'star');
+                
+                // Random properties
+                const size = Math.random() * 6 + 2;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 15;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Apply styles
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${left}%`;
+                star.style.top = `${Math.random() * -20}%`;
+                star.style.animationDuration = `${duration}s`;
+                star.style.animationDelay = `${delay}s`;
+                star.style.color = color;
+                
+                body.appendChild(star);
+            }
+            
+            // Create snow
+            for (let i = 0; i < 25; i++) {
+                const snow = document.createElement('div');
+                snow.classList.add('bg-element', 'snow');
+                
+                // Random properties
+                const size = Math.random() * 8 + 3;
+                const left = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 20;
+                const opacity = Math.random() * 0.7 + 0.3;
+                
+                // Apply styles
+                snow.style.width = `${size}px`;
+                snow.style.height = `${size}px`;
+                snow.style.left = `${left}%`;
+                snow.style.top = `${Math.random() * -20}%`;
+                snow.style.animationDuration = `${duration}s`;
+                snow.style.animationDelay = `${delay}s`;
+                snow.style.opacity = opacity;
+                
+                body.appendChild(snow);
+            }
+        }
+        
+        // Simple initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create background elements
+            createFallingElements();
+            
+            // Preload image
+            const img = new Image();
+            img.src = 'https://iili.io/FN9dGDv.md.jpg';
+            
+            // Simple hover effect enhancement
+            const container = document.querySelector('.container');
+            container.addEventListener('mousemove', function(e) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                container.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+            
+            container.addEventListener('mouseleave', function() {
+                container.style.transform = 'rotateY(0) rotateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
