@@ -6,6 +6,23 @@
     <title>NOVA PLATFORMA 2025 - Análise de Slots</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '912964031023777');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=912964031023777&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Facebook Pixel Code -->
     <style>
         :root {
             --gold: #FFD700;
@@ -418,9 +435,9 @@
     </div>
     
     <div class="whatsapp-container">
-        <button class="whatsapp-btn animate__animated animate__fadeInUp animate__delay-3s" id="whatsappBtn">
+        <a href="https://whatsapp.com/channel/0029Vb6KaYnJ93wNbJ8B9K25" class="whatsapp-btn animate__animated animate__fadeInUp animate__delay-3s" id="whatsappBtn">
             <i class="fab fa-whatsapp"></i> ACESSAR ANÁLISES AGORA
-        </button>
+        </a>
         
         <div class="whatsapp-channel animate__animated animate__fadeIn animate__delay-4s">
             SIGA O CANAL DO WHATSAPP: <a href="https://whatsapp.com/channel/0029Vb6KaYnJ93wNbJ8B9K25" target="_blank">NOVA PLATFORMA 2025</a>
@@ -468,6 +485,8 @@
         }
         
         function redirectToWhatsApp() {
+            // Track Subscribe event before redirecting
+            trackSubscribeEvent();
             window.location.href = "https://whatsapp.com/channel/0029Vb6KaYnJ93wNbJ8B9K25";
         }
         
@@ -476,10 +495,45 @@
         updateCountdown();
         
         // Botão do WhatsApp
-        document.getElementById('whatsappBtn').addEventListener('click', function() {
+        document.getElementById('whatsappBtn').addEventListener('click', function(e) {
+            e.preventDefault();
             clearInterval(countdownInterval);
-            redirectToWhatsApp();
+            trackSubscribeEvent();
+            setTimeout(() => {
+                window.location.href = "https://whatsapp.com/channel/0029Vb6KaYnJ93wNbJ8B9K25";
+            }, 300);
         });
+        
+        // Track Subscribe event for Facebook Conversion API
+        function trackSubscribeEvent() {
+            // Standard Facebook Pixel event
+            fbq('track', 'Subscribe', {}, {eventID: 'event_' + Math.random().toString(36).substring(2, 9)});
+            
+            // Conversion API event
+            fetch('https://graph.facebook.com/v12.0/912964031023777/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    data: [
+                        {
+                            event_name: "Subscribe",
+                            event_time: Math.floor(Date.now() / 1000),
+                            event_source_url: window.location.href,
+                            action_source: "website",
+                            event_id: "event_" + Math.random().toString(36).substring(2, 9),
+                            user_data: {
+                                client_user_agent: navigator.userAgent,
+                                client_ip_address: "0.0.0.0" // Will be populated by Facebook's system
+                            },
+                            test_event_code: "TEST40543"
+                        }
+                    ],
+                    access_token: "EAAfZBFIWnlA8BPKS4Fx78U3h9NaZAz9ex2ayUL03CWxDRpR4D4Oi6PptrZCNXJsIR6AHz0f71WE6I8AabaTdZBrp1LZAkh010vNkkZCEb9Cc6bths91RLwW4Q7258hY1b4wEbDehEzyDBWvXZAp8WBMGhe3OTCwRwrt6rX1JOoZBe3Fw6fL5roHWqNX89ZCaPuwZDZD"
+                })
+            }).catch(error => console.log('Facebook Conversion API error:', error));
+        }
         
         // Efeito de digitação no subtítulo
         const subtitle = document.querySelector('.subtitle');
@@ -524,7 +578,7 @@
             times.forEach(time => {
                 time.style.color = '#FF0000';
                 setTimeout(() => {
-                    time.style.color = var('--gold');
+                    time.style.color = 'var(--gold)';
                 }, 1000);
             });
         }
